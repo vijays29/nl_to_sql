@@ -1,0 +1,38 @@
+Table 1: POINT_TASK
+Description: Stores information about various tasks, their statuses, and related properties for a task management system, including task type, constraints, order details, customer segment, and system-assisted functionalities.
+
+Columns:
+ - TASK_ID (BIGINT, PRIMARY KEY): Unique identifier for each task.
+ - TASK_STATE (VARCHAR, 255): The current state of the task (e.g., pending, in-progress, completed).
+ - TASK_STATUS (VARCHAR, 255): The status of the task, indicating its current progress or completion status.
+ - TASK_NAME (VARCHAR, 255): The name or title of the task.
+ - TASK_TYPE (VARCHAR, 255): Type of task (e.g., routine, emergency, special).
+ - CATEGORY (VARCHAR, 255): Category under which the task falls (e.g., development, maintenance, testing).
+ - COMPLETED_DATE (DATETIME(6)): The date and time when the task was completed.
+ - CONSTRAINT_TASK (VARCHAR, 255): Description or name of the constraint associated with the task.
+ - CONSTRAINT_TYPE (VARCHAR, 255): Type of the constraint (e.g., time-based, resource-based).
+ - CUSTOMER_SEGMENT (VARCHAR, 255): The customer segment the task is related to (e.g., SMB, enterprise).
+ - DOMAIN (VARCHAR, 255): The domain related to the task (e.g., networking, software).
+ - CREATED_DATE (DATETIME(6)): The date and time when the task was created.
+ - DESIGN_WITH_ONLY_CONSTRAINT (BIT(1)): A flag indicating if the task is designed with only constraints (1 for true, 0 for false).
+ - INTERNAL_ORDER_ID (BIGINT): Internal identifier for the order related to the task.
+ - LAST_MODIFIED_DATE (DATETIME(6)): The last date and time when the task was modified.
+ - M6ORDER_TYPE (VARCHAR, 255): The type of M6 order associated with the task.
+ - MANUAL_DOMAIN_SELECTION (BIT(1)): A flag indicating whether the domain was manually selected (1 for true, 0 for false).
+ - NSO_ACTIVATE_STATE (VARCHAR, 255): The activation state for the NSO (Network Service Orchestrator) related to the task.
+ - ORDER_ID (BIGINT): The external identifier for the order associated with the task.
+ - ORDER_SUB_TYPE (VARCHAR, 255): The subtype of the order related to the task (e.g., standard, expedited).
+ - ORDER_TYPE (VARCHAR, 255): The main type of the order (e.g., customer order, internal order).
+ - PICKED_DATE (DATETIME(6)): The date and time when the task or order was picked.
+ - OWNER (VARCHAR, 255): The owner of the task (e.g., employee, team).
+ - OWNER_GROUP (VARCHAR, 255): The group or department responsible for the task.
+ - PARENT_TASK_ID (BIGINT): Identifier of the parent task if this task is a subtask.
+ - ROOT_ORDER_LINE_ID (BIGINT): The root order line ID associated with the task.
+ - SERVICE_TYPE (VARCHAR, 255): Type of service related to the task (e.g., broadband, cloud service).
+ - SFP_CONSTRAINT_STATE (VARCHAR, 255): State of the SFP (Small Form-factor Pluggable) constraint associated with the task.
+ - SOURCE (VARCHAR, 255): The source from which the task originated (e.g., customer request, system trigger).
+ - SPS_ERROR_REASON (VARCHAR, 255): Error reason related to the SPS (Service Provisioning System) associated with the task.
+ - SYSTEM_ASSISTED (VARCHAR, 255): Describes if the task is system-assisted (e.g., automated task creation).
+ - USER_NAME (VARCHAR, 255): The user associated with the task (e.g., the person who created or modified it).
+ - BALTM_AWAITING_IN_ACTIVATION (BIT(1)): A flag indicating if the task is awaiting activation in the BALTM system (1 for true, 0 for false).
+ - ROLLBACK_TYPE (VARCHAR, 255): The type of rollback if the task was rolled back (e.g., error recovery, manual intervention).

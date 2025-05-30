@@ -1,0 +1,10 @@
+Table 3: ADDITIONAL_END_POINTS
+Description: Stores information about additional endpoints, including their type, location, and associated identifiers, for managing network configurations and end-point connections.
+
+Columns: 
+ - ID (BIGINT, PRIMARY KEY): Unique identifier for each additional endpoint entry.
+ - END_TYPE (VARCHAR): The type of the additional endpoint (e.g., network, service).
+ - LOCATION (VARCHAR): The location where the additional endpoint is situated (e.g., data center, remote site).
+ - NE (VARCHAR): The network element associated with the endpoint (e.g., router, switch).
+ - PORT (VARCHAR): The specific port number or identifier associated with the endpoint.
+ - ADDITIONAL_END_POINT_ID (BIGINT, FOREIGN KEY): Identifier for linking the additional endpoint to another entry, representing hierarchical or related endpoints.

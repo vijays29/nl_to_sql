@@ -1,0 +1,14 @@
+Table 2: ACTIVATION_SCHEDULER_INFO
+Description: Stores information about scheduled activations, including scheduling details, event triggers, task states, and modifications related to activation processes within the system.
+
+Columns:
+ - ID (BIGINT, PRIMARY KEY): Unique identifier for each activation scheduler entry.
+ - CATEGORY (VARCHAR): The category under which the scheduled activation falls (e.g., maintenance, upgrade).
+ - CREATED_TIME (DATETIME): The date and time when the activation scheduler entry was created.
+ - EVENT_TRIGGER_TIME (DATETIME): The date and time when the event triggering the activation is scheduled to occur.
+ - LAST_MODIFIED_TIME (DATETIME): The last date and time when the activation scheduler entry was modified.
+ - REMARKS (TEXT): Additional remarks or notes related to the scheduled activation.
+ - SCHEDULER_TASK_KEY (VARCHAR): The key associated with the scheduler task, which identifies the related task in the system.
+ - STATE (VARCHAR): The current state of the scheduler entry (e.g., active, pending, completed).
+ - STATUS (VARCHAR): The status of the scheduled activation (e.g., scheduled, in-progress, completed).
+ - TASK_ID (BIGINT, FOREIGN KEY): The identifier for the task associated with the activation, linking it to the relevant task information.

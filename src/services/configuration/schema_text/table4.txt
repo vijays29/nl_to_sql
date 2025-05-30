@@ -1,0 +1,32 @@
+Table 4: POINT_ORDER
+Description: Contains comprehensive information about customer and internal orders related to service provisioning, including order metadata, types, customer details, network specifications, and status tracking.
+
+Columns:
+ - ID (BIGINT, PRIMARY KEY): Unique identifier for each order record.
+ - ACTIVATION_TYPE (VARCHAR, 255): Specifies the type of activation required for the order (e.g., full, partial).
+ - ORDER_BANDWIDTH (VARCHAR, 255): The bandwidth specified in the order (e.g., 100Mbps, 1Gbps).
+ - ORDER_COMPLETED_DATE (DATETIME(6)): The date and time when the order was completed.
+ - CUSTOMER_NAME (VARCHAR, 255): Name of the customer placing the order.
+ - CUST_ORDER_TYPE (VARCHAR, 255): Type of customer order (e.g., new, upgrade, disconnect).
+ - CUSTOMER_SEGMENT (VARCHAR, 255): Segment to which the customer belongs (e.g., enterprise, SMB).
+ - CVLAN (VARCHAR, 255): Customer VLAN associated with the order.
+ - DIVERSITY_ORDER_ID (BIGINT): ID of another order providing path or service diversity.
+ - DIVERSITY_TYPE (VARCHAR, 255): Type of diversity provided (e.g., path, equipment).
+ - IS_DUAL_RNC (BIT(1)): Flag indicating if the order requires dual Radio Network Controllers (1 for true, 0 for false).
+ - ORDER_LAST_MODI_DATE (DATETIME(6)): Last modification timestamp of the order.
+ - LSI (VARCHAR, 255): Logical Service Identifier, uniquely representing the service.
+ - MEDIA_TYPE (VARCHAR, 255): Media or transmission type used (e.g., fiber, copper).
+ - ORDER_ID (BIGINT): External or system-wide unique identifier for the order.
+ - ORDER_NAME (VARCHAR, 255): Name or label assigned to the order.
+ - M6ORDER_STATUS (VARCHAR, 255): Status of the order in the M6 system (if applicable).
+ - ORDER_SUB_TYPE (VARCHAR, 255): Sub-type of the order (e.g., expedited, scheduled).
+ - ORDER_TYPE (VARCHAR, 255): General type of the order (e.g., customer, internal).
+ - ORDER_RECEIVED_DATE (DATETIME(6)): The date and time when the order was received.
+ - REGION (VARCHAR, 255): Geographical region where the service/order applies.
+ - SERVICE_TYPE (VARCHAR, 255): Type of service requested in the order (e.g., internet, MPLS).
+ - SOURCE (VARCHAR, 255): Origin/source of the order (e.g., customer portal, internal system).
+ - ORDER_STATE (VARCHAR, 255): The current state of the order (e.g., in-progress, completed).
+ - ORDER_STATUS (VARCHAR, 255): Current status value representing the order’s progress.
+ - TYPE (VARCHAR, 255): General type or classification (custom use depending on system context).
+ - brh_id (BIGINT): Reference ID for the BRH (e.g., related infrastructure or provisioning unit).
+ - igw_id (BIGINT): Reference ID for the IGW (e.g., associated gateway or integration point).
