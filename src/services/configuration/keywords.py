@@ -1,4 +1,7 @@
 import re
+from services.configuration.logger import get_logger
+
+logger = get_logger("ForbiddenKeywordsLogger")
 
 forbidden_keywords = {
     "optimize table", "optimize index", "optimize query", "restructure table", "reformat table",
@@ -88,7 +91,9 @@ forbidden_patterns = [re.compile(r'\b' + re.escape(keyword) + r'\b', re.IGNORECA
 
 def Contains_Forbidden_Keywords(query: str) -> bool:
     query = query.strip()
+    logger.debug(f"Checking query for forbidden keywords: {query}")
     for pattern in forbidden_patterns:
         if pattern.search(query):
+            logger.warning(f"Forbidden keyword detected in query: {query}")
             return True
     return False

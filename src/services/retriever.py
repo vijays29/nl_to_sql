@@ -3,64 +3,65 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from pinecone import Pinecone
 import asyncio
 from services.configuration.logger import get_logger
-from fastapi import HTTPException
 
-logger = get_logger("SchemaContextLogger")  # Renamed for clarity
+logger = get_logger("SchemaRetrievalLogger") 
 
-pc = Pinecone(settings.PINECONE_API_KEY)
-index = pc.Index(settings.INDEX_NAME)
+class SemanticSearchHelper:
+    def __init__(self):
+        self.pc = Pinecone(settings.PINECONE_API_KEY)
+        self.index = self.pc.Index(settings.INDEX_NAME)
 
-embeddings = GoogleGenerativeAIEmbeddings(
-    model="models/gemini-embedding-exp-03-07",
-    task_type="semantic_similarity"
-)
-
-def semantic_search(query: str, top_k: int = 2) -> list:
-    logger.info(f"Performing semantic search for query: {query}")
-    try:
-        query_embedding = embeddings.embed_query(query)
-        logger.debug(f"Query embedding generated successfully.")
-
-        response = index.query(
-            vector=query_embedding,
-            top_k=top_k,
-            include_metadata=True
+        self.embeddings = GoogleGenerativeAIEmbeddings(
+            model="models/gemini-embedding-exp-03-07",
+            task_type="semantic_similarity"
         )
 
-        matches = response.get('matches', [])
-        logger.info(f"Found {len(matches)} semantic matches from Pinecone.")
+    def semantic_search(self, query: str, top_k: int = 2) -> list:
+        try:
+            logger.debug(f"Embedding query for semantic search: {query}")
+            query_embedding = self.embeddings.embed_query(query)
 
-        return [match['metadata'] for match in matches]
+            response = self.index.query(
+                vector=query_embedding,
+                top_k=top_k,
+                include_metadata=True
+            )
 
-    except Exception as e:
-        logger.error(f"Error during semantic search: {e}")
-        return []
+            matches = response.get('matches', [])
+            logger.info(f"Found {len(matches)} results from Pinecone for query: '{query}'")
 
-def clean_rag_text(text: str) -> str:
-    logger.debug("Cleaning RAG text.")
-    cleaned = text.strip().replace('\\n', '\n').replace('\n\n', '\n')
-    lines = cleaned.splitlines()
+            return [match['metadata'] for match in matches]
 
-    formatted_lines = [
-        f"  {line}" if line.startswith('-') else line.strip() for line in lines
-    ]
+        except Exception as e:
+            logger.error(f"Error during semantic search for query '{query}': {e}")
+            return []
 
-    cleaned_text = '\n'.join(formatted_lines)
-    logger.debug(f"Cleaned RAG text: {cleaned_text}")
-    return cleaned_text
+    @staticmethod
+    def clean_rag_text(text: str) -> str:
+        cleaned = text.strip().replace('\\n', '\n').replace('\n\n', '\n')
+        lines = cleaned.splitlines()
+
+        formatted_lines = [
+            f"  {line}" if line.startswith('-') else line.strip() for line in lines
+        ]
+
+        cleaned_text = '\n'.join(formatted_lines)
+        return cleaned_text
+
 
 async def get_schema_context_from_rag(query: str) -> str:
-    logger.info(f"Retrieving schema context for query: {query}")
-    results = await asyncio.to_thread(semantic_search, query)
+    helper = SemanticSearchHelper()
+
+    logger.info(f"Starting retrieval of schema context for query: '{query}'")
+    results = await asyncio.to_thread(helper.semantic_search, query)
 
     combined = "\n".join(
-        clean_rag_text(item['text']) for item in results if 'text' in item
+        helper.clean_rag_text(item['text']) for item in results if 'text' in item
     )
 
     if not combined.strip():
-        logger.warning("No RAG schema context retrieved.")
-        raise HTTPException(status_code=500, detail="Schema metadata unavailable from RAG.")
+        logger.warning(f"No relevant schema context found for query: '{query}'.")
+        return []
 
-    logger.info("Successfully retrieved and cleaned schema context.")
-    logger.debug(f"Schema context: {combined}")
+    logger.info(f"Successfully retrieved schema context for query: '{query}'.")
     return combined
