@@ -2,6 +2,7 @@ from services.configuration.config import settings
 from mysql.connector import pooling, Error
 from services.configuration.logger import get_logger
 
+# Initialize logger for MysqlExecutionLogger logging
 logger = get_logger("MysqlExecutionLogger")
 
 class MysqlDB:
