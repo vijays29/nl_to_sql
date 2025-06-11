@@ -16,7 +16,7 @@ class SemanticSearchHelper:
             task_type="semantic_similarity"
         )
 
-    def semantic_search(self, query: str, top_k: int = 2) -> list:
+    def semantic_search(self, query: str, top_k: int = 4) -> list:
         try:
             logger.debug(f"Embedding query for semantic search: {query}")
             query_embedding = self.embeddings.embed_query(query)

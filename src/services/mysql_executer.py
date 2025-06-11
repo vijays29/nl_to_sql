@@ -5,11 +5,22 @@ from services.configuration.logger import get_logger
 logger = get_logger("MysqlExecutionLogger")
 
 class MysqlDB:
+    """
+    MysqlDB manages connections to a MySQL database using a connection pool.
+    It supports safe execution of SQL queries and handles connection lifecycle.
+    """
     def __init__(self):
+        """
+        Initializes the MySQL connection pool upon object creation.
+        """
         self.pool = None
         self.initialize_pool()
 
     def initialize_pool(self):
+        """
+        Sets up a MySQL connection pool using parameters from the settings module.
+        Ensures optimized reuse of connections for concurrent access.
+        """
         self.pool = pooling.MySQLConnectionPool(
             pool_name=settings.POOL_NAME,
             pool_size=settings.POOL_SIZE,
@@ -23,6 +34,20 @@ class MysqlDB:
         logger.info("Initialized MySQL connection pool.")
 
     def Execute_Query(self, sql_query: str, params=None) -> list[dict]:
+        """
+        Executes a SQL query using a pooled MySQL connection.
+
+        Parameters:
+            sql_query (str): The SQL query to execute.
+            params (tuple|None): Optional parameters for parameterized queries.
+
+        Returns:
+            list[dict]: Result set represented as a list of dictionaries (column-value pairs).
+                        Returns None if the query yields no results.
+
+        Raises:
+            Exception/Error: If query execution fails due to connection or SQL issues.
+        """
         if not self.pool:
             logger.error("MySQL connection pool is not initialized.")
             raise
@@ -53,5 +78,9 @@ class MysqlDB:
                 logger.debug("MySQL connection returned to pool.")
 
     def close_pool(self):
+        """
+        Closes the connection pool by dereferencing it.
+        Intended to be called during application shutdown or cleanup.
+        """
         self.pool = None
         logger.info("MySQL connection pool closed.")
