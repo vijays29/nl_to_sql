@@ -111,9 +111,7 @@ INDEX_NAME=<pinecone index name>
 ```bash
 src/
 ├── services/
-│   ├── __pycache__/
 │   ├── configuration/
-│   │   ├── __pycache__/
 │   │   ├── schema_text/
 │   │   ├── config.py
 │   │   ├── keywords.py
@@ -125,7 +123,6 @@ src/
 ├── app.py
 .env
 .gitignore
-pyvenv.cfg
 requirements.txt
 ```
 
